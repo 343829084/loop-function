@@ -3,9 +3,8 @@ import threading
 
 
 class Loop:
-    """Makes is easy for one function to go into an infinite loop
+    """Makes it easy for one function to go into an infinite loop
     some built in error handling
-
     """
 
     def __init__(self, target,
