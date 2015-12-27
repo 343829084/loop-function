@@ -24,7 +24,7 @@ class Loop:
         self.loop_thread = None
 
     def _loop(self, *args, **kwargs):
-        self._lock.clear()
+
         try:
             while not self._stop_signal:
                 self.function(*args, **kwargs)
@@ -33,7 +33,7 @@ class Loop:
             self._lock.set()
             self.on_stop()
 
-    def start(self, subthread=False):
+    def start(self, subthread=True):
         if self.is_running():
             raise RuntimeError('Mainloop is already running')
         elif subthread:
@@ -41,9 +41,11 @@ class Loop:
             self.loop_thread = threading.Thread(target=self._loop,
                                                 args=self.args,
                                                 kwargs=self.kwargs)
+            self._lock.clear()
             self.loop_thread.start()
         else:
             self._stop_signal = False
+            self._lock.clear()
             self._loop(*self.args, **self.kwargs)
 
     def stop(self):
