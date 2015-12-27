@@ -8,3 +8,4 @@ def p():
     sleep(2)
 
 x = loopfunction.Loop(target=p)
+
