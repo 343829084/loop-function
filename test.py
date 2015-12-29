@@ -3,9 +3,11 @@
 import loopfunction
 from time import sleep
 
-def p():
-    print('Hi')
+
+def function(x):
+    print(x)
     sleep(2)
 
-x = loopfunction.Loop(target=p)
+loop_obj = loopfunction.Loop(target=function, args=('Hello, World!',))
+loop_obj.start()
 
