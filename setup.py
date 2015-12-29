@@ -4,6 +4,11 @@ from setuptools import setup
 from loopfunction import __version__
 import sys
 
+
+def readme():
+    with open('README.rst') as f:
+        return f.read()
+
 print('Current version: ', __version__)
 version = __version__.split('.')
 
@@ -33,15 +38,16 @@ setup(
     version=version,
     include_package_data=True,
     license='MIT',
-    description='A small python module for running functions in a continious loop within a subthread',
+    description='A small python module for running functions in an infinite loop',
+    long_description=readme(),
     author='Christoffer Zakrisson',
     author_email='christoffer_zakrisson@hotmail.com',
     url='https://github.com/Zaeb0s/loop-function', # use the URL to the github repo
     keywords=['loop', 'function', 'thread', 'serve', 'forever'], # arbitrary keywords
-    classifiers=['Development Status :: 4 - Beta',
-                   'Programming Language :: Python :: 3.5',
-                   'Operating System :: POSIX :: Linux',
-                   'License :: OSI Approved :: MIT License'],
+    classifiers=['Development Status :: 5 - Production/Stable',
+                 'Programming Language :: Python :: 3.5',
+                 'Operating System :: POSIX :: Linux',
+                 'License :: OSI Approved :: MIT License'],
 )
 
 
