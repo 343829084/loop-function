@@ -7,8 +7,8 @@ Also in the docstrings of `loopfunction.py
 
 New feautures:
 
-V.1.0.1
-   - The user can now add a on start function
+V.1.1.0
+   - The user can now add an on start function
 
    - The user can now add arguments and keyword arguments to the on stop and on start functions
 
