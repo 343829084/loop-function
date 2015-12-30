@@ -4,10 +4,17 @@ import loopfunction
 from time import sleep
 
 
-def function(x):
+def target(x):
     print(x)
     sleep(2)
 
-loop_obj = loopfunction.Loop(target=function, args=('Hello, World!',))
-loop_obj.start()
+def on_stop(x='hello'):
+    print('Stopped ' + x)
 
+def on_start(x='hello'):
+    print('Started ' + x)
+
+loop_obj = loopfunction.Loop(target=target, args=('Hello, World!',),
+                             on_start=on_start, on_start_args=('hello there', ),
+                             on_stop=on_stop, on_stop_args=('hello there', ))
+loop_obj.start()

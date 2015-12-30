@@ -7,26 +7,41 @@ class Loop:
 
     def __init__(self, target,
                  args=(), kwargs={},
-                 on_stop=lambda: None):
+                 on_start=lambda: None,
+                 on_start_args=(), on_start_kwargs={},
+                 on_stop=lambda: None,
+                 on_stop_args=(), on_stop_kwargs={}):
         """The initialization of the Loop class
 
         :param target: The target function
         :param args: Arguments to be used when calling target function
         :param kwargs: Keyword arguments to be used when calling target function
-        :param on_stop: Function to run when the loop stops
+        :param on_start: Function to run when the loop starts together with on_start_args and on_start_kwargs
+        :param on_start_args: See on_start
+        :param on_start_kwargs: See on_start
+        :param on_stop: Function to run when the loop stops together with on_stop_args and on_stop_kwargs
+        :param on_stop_args: See on_stop
+        :param on_stop_kwargs: See on_stop
         """
 
         self.target = target
         self.args = args
         self.kwargs = kwargs
+
+        self.on_start = on_start
+        self.on_start_args = on_start_args
+        self.on_start_kwargs = on_start_kwargs
+
         self.on_stop = on_stop
+        self.on_stop_args = on_stop_args
+        self.on_stop_kwargs = on_stop_kwargs
 
         self._stop_signal = False
 
         self._lock = threading.Event()
         self._lock.set()
 
-        self.loop_thread = None
+        self._loop_thread = None
 
         self._in_subthread = None
 
@@ -36,12 +51,14 @@ class Loop:
         :param args: The args specified on initiation
         :param kwargs: The kwargs specified on initiation
         """
+        self.on_start(*self.on_start_args, **self.on_start_kwargs)
         try:
             while not self._stop_signal:
                 self.target(*args, **kwargs)
         finally:
             self._lock.set()
-            self.on_stop()
+            print(self.on_stop_args, self.on_stop_kwargs)
+            self.on_stop(*self.on_stop_args, **self.on_stop_kwargs)
             self._stop_signal = False
 
     def start(self, subthread=True):
@@ -50,7 +67,7 @@ class Loop:
         Tries to start the loop. Raises RuntimeError if the loop is currently running.
 
         :param subthread: True/False value that specifies whether or not to start the loop within a subthread. If True
-        the threading.Thread object is found in Loop.loop_thread.
+        the threading.Thread object is found in Loop._loop_thread.
         """
         if self.is_running():
             raise RuntimeError('Loop is currently running')
@@ -58,10 +75,10 @@ class Loop:
             self._lock.clear()
             self._in_subthread = subthread
             if subthread:
-                self.loop_thread = threading.Thread(target=self._loop,
+                self._loop_thread = threading.Thread(target=self._loop,
                                                     args=self.args,
                                                     kwargs=self.kwargs)
-                self.loop_thread.start()
+                self._loop_thread.start()
             else:
                 self._loop(*self.args, **self.kwargs)
 
