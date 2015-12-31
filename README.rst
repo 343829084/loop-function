@@ -5,7 +5,7 @@ Also in the docstrings of `loopfunction.py
 <https://github.com/Zaeb0s/loop-function/blob/master/loopfunction/loopfunction.py>`_.
 
 
-New feautures:
+New features:
 
 V.1.1.0
    - The user can now add an on start function
