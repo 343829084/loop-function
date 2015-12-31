@@ -72,11 +72,12 @@ class Loop:
             raise RuntimeError('Loop is currently running')
         else:
             self._lock.clear()
+            self._stop_signal = False  # just in case
             self._in_subthread = subthread
             if subthread:
                 self._loop_thread = threading.Thread(target=self._loop,
-                                                    args=self.args,
-                                                    kwargs=self.kwargs)
+                                                     args=self.args,
+                                                     kwargs=self.kwargs)
                 self._loop_thread.start()
             else:
                 self._loop(*self.args, **self.kwargs)
