@@ -15,6 +15,6 @@ def on_start(x='hello'):
     print('Started ' + x)
 
 loop_obj = loopfunction.Loop(target=target, args=('Hello, World!',),
-                             on_start=on_start, on_start_args=('hello there', ),
-                             on_stop=on_stop, on_stop_args=('hello there', ))
+                             on_start=on_start, on_start_args=('target', ),
+                             on_stop=on_stop, on_stop_args=('target', ))
 loop_obj.start()
