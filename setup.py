@@ -27,9 +27,9 @@ elif sys.argv[-1] == 'huge':
     del sys.argv[-1]
 
 
-
 version = '.'.join(version)
-
+with open('loopfunction/version', 'w') as f:
+    f.write(version)
 
 
 setup(
@@ -52,5 +52,3 @@ setup(
 
 
 print('Installed version: ' + version)
-with open('loopfunction/version', 'w') as f:
-    f.write(version)
