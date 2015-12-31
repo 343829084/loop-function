@@ -56,10 +56,9 @@ class Loop:
             while not self._stop_signal:
                 self.target(*args, **kwargs)
         finally:
-            self._lock.set()
-            print(self.on_stop_args, self.on_stop_kwargs)
             self.on_stop(*self.on_stop_args, **self.on_stop_kwargs)
             self._stop_signal = False
+            self._lock.set()
 
     def start(self, subthread=True):
         """Starts the loop
